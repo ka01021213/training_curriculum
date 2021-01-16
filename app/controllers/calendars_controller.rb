@@ -34,7 +34,7 @@ class CalendarsController < ApplicationController
       plans.each do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
-      days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans, :wday =>wdays[(@todays_date+x).wday]}
+      days = { month:(@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans, wday:wdays[(@todays_date+x).wday]}
                                                                                                           #wdaysは配列なので添字を使用して中身を取り出す。
                                                                                                           #添字を今日の日付を利用して入れたい。Date.today ←今日の日付
                                                                                                           #wdayメソッドを使用すると日付に対応した曜日が出力されます。
