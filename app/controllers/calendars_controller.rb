@@ -2,7 +2,7 @@ class CalendarsController < ApplicationController
 
   # １週間のカレンダーと予定が表示されるページ
   def index
-    getWeek
+    get_week
     @plan = Plan.new
   end
 
@@ -18,7 +18,7 @@ class CalendarsController < ApplicationController
     params.require(:plan).permit(:date, :plan)
   end
 
-  def getWeek
+  def get_week
     wdays = ['(日)','(月)','(火)','(水)','(木)','(金)','(土)']
 
     # Dateオブジェクトは、日付を保持しています。下記のように`.today.day`とすると、今日の日付を取得できます。
@@ -34,11 +34,14 @@ class CalendarsController < ApplicationController
       plans.each do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
+
       days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans, :wday =>wdays[(@todays_date+x).wday]}
                                                                                                           #wdaysは配列なので添字を使用して中身を取り出す。
                                                                                                           #添字を今日の日付を利用して入れたい。Date.today ←今日の日付
                                                                                                           #wdayメソッドを使用すると日付に対応した曜日が出力されます。
                                                                                                           #今日が木曜日であれば４の数字が返されます。4の数字を配列の添字として使用すればok
+
+     
       @week_days.push(days)
     end
 
