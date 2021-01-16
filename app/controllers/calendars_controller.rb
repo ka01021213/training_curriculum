@@ -15,7 +15,7 @@ class CalendarsController < ApplicationController
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:date, :plan)
   end
 
   def get_week
@@ -34,9 +34,19 @@ class CalendarsController < ApplicationController
       plans.each do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
-      days = {month： (@todays_date + x).month, date：(@todays_date+x).day, plans： today_plans}
+      days = { month:(@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans, wday:wdays[(@todays_date+x).wday]}
+                                                                                                          #wdaysは配列なので添字を使用して中身を取り出す。
+                                                                                                          #添字を今日の日付を利用して入れたい。Date.today ←今日の日付
+                                                                                                          #wdayメソッドを使用すると日付に対応した曜日が出力されます。
+                                                                                                          #今日が木曜日であれば４の数字が返されます。4の数字を配列の添字として使用すればok
+
+     
       @week_days.push(days)
     end
 
   end
 end
+
+
+
+#(14+0).day (14+1).day (14+2).day........(14+6).day
